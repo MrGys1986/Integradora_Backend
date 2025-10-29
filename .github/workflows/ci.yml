@@ -1,0 +1,26 @@
+name: CI
+on:
+  pull_request:
+    branches: [ dev, main ]
+  push:
+    branches: [ dev ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        path:
+          - apigateway
+          - nginx
+          - microservices/auth
+          - microservices/users-profiles
+          - microservices/routes-search
+          - microservices/reservations
+          - microservices/wallet-conciliation
+          - microservices/driverday
+          - microservices/notifications
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build ${{ matrix.path }}
+        run: |
+          docker build -t colibri/${{ matrix.path##*/ }}:${{ github.sha }} ${{ matrix.path }}

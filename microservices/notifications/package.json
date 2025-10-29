@@ -1,0 +1,11 @@
+{
+  "name": "microservices-notifications",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node dist/main.js",
+    "build": "echo \"Add Nest build here (tsc or nest build)\" && mkdir -p dist && cp src/main.ts dist/main.js",
+    "lint": "echo \"stub lint\"",
+    "test": "echo \"stub tests\""
+  }
+}

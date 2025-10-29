@@ -1,0 +1,9 @@
+/microservices/auth/                 @owner1
+/microservices/users-profiles/       @owner2
+/microservices/routes-search/        @owner3
+/microservices/reservations/         @owner4
+/microservices/wallet-conciliation/  @owner5
+/microservices/driverday/            @owner6
+/microservices/notifications/        @owner7
+/apigateway/                         @owner8
+/nginx/                              @ops-team
