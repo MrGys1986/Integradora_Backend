@@ -3,13 +3,13 @@ import { HydratedDocument } from 'mongoose';
 
 export type RouteDocument = HydratedDocument<Route>;
 
-// Sub-esquema para GeoPoint (embebido, sin _id)
-@Schema({ _id: false })  // Importante: Sin _id para sub-docs
+// Sub-esquema para GeoPoint (embebido)
+@Schema({ _id: false })
 export class GeoPoint {
-  @Prop({ type: String, enum: ['Point'], required: true })  // Required aquí valida el campo interno
+  @Prop({ type: String, enum: ['Point'], required: true })
   type: string;
 
-  @Prop({ type: [Number], required: true })  // Required valida las coords
+  @Prop({ type: [Number], required: true })
   coordinates: number[];
 }
 
@@ -21,7 +21,7 @@ export class Route {
   @Prop({ required: true })
   driverId: string;
 
-  @Prop({ type: GeoPointSchema })  // ¡Sin required ni index aquí!
+  @Prop({ type: GeoPointSchema })
   origin: GeoPoint;
 
   @Prop({ type: GeoPointSchema })
@@ -39,6 +39,6 @@ export class Route {
 
 export const RouteSchema = SchemaFactory.createForClass(Route);
 
-// ¡Agrega índices manualmente para geospatial (después de crear el schema)!
+// Índices 2dsphere para búsquedas geo
 RouteSchema.index({ origin: '2dsphere' });
 RouteSchema.index({ destination: '2dsphere' });

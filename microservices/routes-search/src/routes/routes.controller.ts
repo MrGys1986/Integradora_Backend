@@ -2,6 +2,7 @@ import { Controller, Post, Body, Get, Query, Param } from '@nestjs/common';
 import { RoutesService } from './routes.service';
 import { CreateRouteDto } from './dto/create-route.dto';
 import { SearchRouteDto } from './dto/search-route.dto';
+import { SearchByPointsDto } from './dto/search-by-points.dto';
 import { Route } from './route.schema';
 
 @Controller('routes')
@@ -18,12 +19,16 @@ export class RoutesController {
     return this.routesService.search(searchDto);
   }
 
+  @Get('search/by-points')
+  searchByPoints(@Query() searchDto: SearchByPointsDto): Promise<Route[]> {
+    return this.routesService.searchByPoints(searchDto);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string): Promise<Route> {
     return this.routesService.findOne(id);
   }
 
-  // ¡Nuevo endpoint!
   @Get('driver/:driverId')
   findByDriver(@Param('driverId') driverId: string): Promise<Route[]> {
     return this.routesService.findByDriverId(driverId);
