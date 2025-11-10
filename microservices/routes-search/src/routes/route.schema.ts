@@ -3,7 +3,7 @@ import { HydratedDocument } from 'mongoose';
 
 export type RouteDocument = HydratedDocument<Route>;
 
-// Sub-esquema para GeoPoint (embebido)
+// Sub-esquema para GeoPoint
 @Schema({ _id: false })
 export class GeoPoint {
   @Prop({ type: String, enum: ['Point'], required: true })
@@ -21,14 +21,29 @@ export class Route {
   @Prop({ required: true })
   driverId: string;
 
-  @Prop({ type: GeoPointSchema })
+  @Prop({ type: GeoPointSchema, required: true })
   origin: GeoPoint;
 
-  @Prop({ type: GeoPointSchema })
+  @Prop({ type: [GeoPointSchema], default: [] })
+  stops: GeoPoint[];
+
+  @Prop({ type: GeoPointSchema, required: true })
   destination: GeoPoint;
 
   @Prop({ required: true })
   schedule: Date;
+
+  @Prop({ default: true })
+  isOneTime: boolean;
+
+  @Prop({ default: false })
+  isRecurrent: boolean;
+
+  @Prop({ default: '' })
+  frequency: string;  // 'weekly', 'daily', etc.
+
+  @Prop({ type: [Number], required: true, default: [] })
+  prices: number[];
 
   @Prop({ enum: ['available', 'booked', 'completed'], default: 'available' })
   status: string;
@@ -39,6 +54,7 @@ export class Route {
 
 export const RouteSchema = SchemaFactory.createForClass(Route);
 
-// Índices 2dsphere para búsquedas geo
+// Índices 2dsphere (solo para origin y destination; stops sin índice para evitar error)
 RouteSchema.index({ origin: '2dsphere' });
 RouteSchema.index({ destination: '2dsphere' });
+// NO agregues índice en stops aquí – causa el error en inserts con array

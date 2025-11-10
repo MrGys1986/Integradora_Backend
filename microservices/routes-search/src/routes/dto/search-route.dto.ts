@@ -1,7 +1,6 @@
-import { IsOptional, IsNumber, IsDateString, IsArray, IsString } from 'class-validator';  
+import { IsOptional, IsNumber, IsDateString, IsArray, IsString } from 'class-validator';
 
 export class SearchRouteDto {
-  // Para búsqueda por proximidad a un punto (origen o destino)
   @IsOptional()
   @IsNumber()
   nearLng?: number;
@@ -12,14 +11,12 @@ export class SearchRouteDto {
 
   @IsOptional()
   @IsNumber()
-  maxDistance?: number; // En metros, default 5000m (5km)
+  maxDistance?: number;
 
-  // Para área (polígono aproximado, e.g., bounding box como array de [lng,lat])
   @IsOptional()
   @IsArray()
-  boundingBox?: [[number, number], [number, number]]; // [[minLng, minLat], [maxLng, maxLat]]
+  boundingBox?: [[number, number], [number, number]];
 
-  // Filtro por origen/destino aproximado
   @IsOptional()
   @IsNumber()
   originLng?: number;
@@ -36,7 +33,6 @@ export class SearchRouteDto {
   @IsNumber()
   destLat?: number;
 
-  // Filtro por horario (e.g., después de una fecha)
   @IsOptional()
   @IsDateString()
   afterSchedule?: string;
@@ -44,4 +40,8 @@ export class SearchRouteDto {
   @IsOptional()
   @IsString()
   status?: string;
+
+  @IsOptional()
+  @IsString()
+  destinationPlace?: string;  // Nuevo: nombre de lugar para geocodificar y buscar destino cercano
 }
